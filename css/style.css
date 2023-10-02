@@ -1,0 +1,263 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 0.3em;
+}
+
+
+/**********************************/
+/*   Car and controls container   */
+/**********************************/
+.car-with-controls {
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+}
+
+
+/**********************************/
+/*         Car background         */
+/**********************************/
+
+/* Car container (background) */
+.car {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: url('../images/car_background.svg');
+    background-size: cover;
+}
+
+.car.on {
+    animation: scrolling 50s linear infinite;
+}
+
+@keyframes scrolling {
+    100%{ background-position:0 -1000%; }
+}
+
+
+/**********************************/
+/*           Car parts            */
+/**********************************/
+
+/* Car SVG image */
+.car__image {
+    width: calc(100% / 4.5); /* 4.5 car la voiture est 4.5 fois moins large que le background */
+    display: block;
+    position: relative;
+    top: 40%;
+    left: 51%;
+}
+
+.car__image.on {
+    animation: car_moving 0.2s infinite;
+}
+
+@keyframes car_moving {
+    0%  { transform: translate(0); }
+    25% { transform: translate(0.3px); }
+    50% { transform: translate(0); }
+    75% { transform: translate(-0.3px); }
+    100%{ transform: translate(0); }
+}
+
+/* All car parts */
+path, rect, circle, ellipse {
+    stroke-width: 1;
+    stroke: rgb(0, 0, 0);
+    stroke-opacity: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: none;
+    fill: rgb(255, 255, 255);
+    fill-opacity: 1;
+}
+
+:is(path, rect, circle, ellipse):hover {
+    cursor: url('./cursors/brush.svg') 0 32, auto;
+    animation: stroke_blink 1s infinite;
+}
+
+@keyframes stroke_blink {
+    0%  { stroke: rgb(53, 56, 210); }
+    40% { stroke: rgb(146, 147, 231); }
+    60% { stroke: rgb(146, 147, 231); }
+    100%{ stroke: rgb(53, 56, 210); }
+}
+
+/* Body and mirrors */
+path[id="body"],
+path[id*="mirror"] {
+    fill: rgb(163, 245, 164);
+}
+
+/* Tires */
+rect[id*="tire"] {
+    fill: rgb(0, 0, 0);
+}
+
+/* Bumpers */
+path[id*="bumper"] {
+    fill: rgb(134, 134, 134);
+}
+
+/* Exhaust */
+path[id="exhaust"] {
+    fill: rgb(134, 134, 134);
+}
+
+/* Windshield and windows */
+path[id="windshield"],
+path[id*="window"] {
+    fill: rgb(134, 255, 255);
+}
+
+/* Headlights */
+path[id*="headlight"] {
+    fill: rgb(156, 156, 101);
+}
+
+path[id*="headlight"].on {
+    fill: rgb(255, 255, 0);
+}
+
+/* Taillights */
+path[id*="taillight"] {
+    fill: rgb(180, 83, 83);
+}
+
+path[id*="taillight"].on {
+    fill: rgb(255, 0, 0);
+}
+
+/* Indicators */
+path[id*="indicator"] {
+    fill: rgb(137, 68, 0);
+}
+
+path[id*="indicator"].on {
+    animation: indicator_blinking 1s infinite;
+}
+
+@keyframes indicator_blinking {
+    0%  { fill: rgb(137, 68, 0); }
+    40% { fill: rgb(255, 128, 0); }
+    60% { fill: rgb(255, 128, 0); }
+    100%{ fill: rgb(137, 68, 0); }
+}
+
+/* Windshield wiper */
+path[id="windshield_wiper"] {
+    transform-origin: 105.06808px 119.60508px;
+    transform: rotate(-80deg);
+}
+
+path[id="windshield_wiper"].on {
+    animation: wiper_spin 4s infinite;
+}
+
+/* Back window wiper */
+path[id="back_window_wiper"] {
+    transform-origin: 105.06807px 205.851px;
+    transform: rotate(-80deg);
+}
+
+path[id="back_window_wiper"].on {
+    animation: wiper_spin 4s infinite;
+}
+
+@keyframes wiper_spin {
+    0%  {transform: rotate(-80deg)}
+    33% {transform: rotate(80deg)}
+    66% {transform: rotate(-80deg)}
+    100%{transform: rotate(-80deg)}
+}
+
+/* Smoke */
+ellipse[id*="smoke"] {
+    fill: rgb(207, 207, 207);
+    opacity: 0;
+}
+
+ellipse[id*="smoke"].on {
+    animation: exhaust_smoking 3s infinite;
+}
+
+ellipse[id*="smoke_1"].on {
+    animation-delay: 0s;
+    transform-origin: 126.5817px 246.14159px;
+}
+
+ellipse[id*="smoke_2"].on {
+    animation-delay: 1s;
+    transform-origin: 130.27623px 245.01248px;
+}
+
+ellipse[id*="smoke_3"].on {
+    animation-delay: 2s;
+    transform-origin: 129.77623px 248.27431px;
+}
+
+@keyframes exhaust_smoking {
+    0%  { transform: scale(0.0); opacity: 0; }
+    20% { opacity: 0.9; }
+    100%{ transform: scale(1); opacity: 0; }
+}
+
+/**********************************/
+/*            Controls            */
+/**********************************/
+.controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-rows: 1fr;
+    gap: 0.3em;
+}
+
+.controls > * {
+    width: 100%;
+    height: 100%;
+    padding: 0.1em;
+}
+
+.controls > button {
+    background-color: rgb(245, 163, 163);
+    border: solid 1px rgb(247, 68, 68);
+    border-radius: 2px;
+    transition: 0.1s;
+}
+
+.controls > button:hover {
+    background-color: rgb(245, 163, 163);
+    border: solid 1px rgb(199, 16, 16);
+    border-radius: 2px;
+    transition: 0.1s;
+}
+
+.controls > button.on {
+    background-color: rgb(163, 245, 164);
+    border-color: rgb(36, 196, 36);
+    transition: 0.1s;
+}
+
+.controls > button.on:hover {
+    border-color: rgb(22, 134, 22);
+    transition: 0.1s;
+}
+
+.controls > button * {
+    pointer-events: none; /* Désactive les event sur les éléments contenus dans les <button> afin que les target ne soient jamais les <em> ou autres éléments contenus dedans si on venait à cliquer dessus directement */
+}
+
+.controls > button em {
+    font-weight: bold;
+    font-style: italic;
+}
